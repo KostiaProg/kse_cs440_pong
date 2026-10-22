@@ -31,6 +31,7 @@ public:
     // setters and getters
     float getRadius() const;
     pair<float, float> getDirection() const;
+    float getEdgeY() const;
     float getCurrentSpeed() const;
 
     void setRadius(float radius);

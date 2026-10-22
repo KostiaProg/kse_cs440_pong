@@ -9,6 +9,7 @@
 
 using namespace std;
 
+
 engine::engine(float width, float height, int maxScore, float initHalfHeightRacket, float initPlayerX, float initBotX) : boardSize(width, height),
     halfHeightRacket(initHalfHeightRacket),
     playerX(initPlayerX),
@@ -85,6 +86,23 @@ void engine::endGame() {
     else startRound();
 }
 
+bool engine::checkRacketBorders(racket* r, bool isUp) {
+    if (!isUp && player->getY() <= 0.0f) {
+        float diff = player->getDiff();
+        player->setCoors(player->getX(), 0.0f);
+        player->setBottomY(diff);
+        player->resetSpeed();
+    }
+    else if (isUp && player->getY() >= boardSize.second) {
+        float diff = player->getDiff();
+        player->setCoors(player->getX(), boardSize.second - diff);
+        player->setBottomY(boardSize.second);
+        player->resetSpeed();
+    }
+    else return false;
+
+    return true;
+}
 
 float engine::calculateHitFactor(ball* b, racket* r) {
     if (b->getY() > r->getMiddle()) return (b->getY() - r->getBottomY()) / (r->getY() - r->getBottomY());
@@ -132,8 +150,12 @@ bool engine::ballAndRacket(ball* b, racket* r, bool isBot) {
 
 
 void engine::update() {
-    if (player) player->update();
-    if (bot) bot->update();
+    if (player && checkRacketBorders(player.get(), true) && checkRacketBorders(player.get(), false)) {
+        player->update();
+    }
+    if (bot && checkRacketBorders(bot.get(), true) && checkRacketBorders(bot.get(), false)) {
+        bot->update();
+    }
 
     for (auto& obj : objs) {
         if (!obj) continue;
@@ -145,7 +167,7 @@ void engine::update() {
             shouldRemove |= ballAndRacket(b, player.get(), false);
             shouldRemove |= ballAndRacket(b, bot.get(), true);
 
-            if (b->getY() >= boardSize.second || b->getY() <= 0.0f) b->bounceWall();
+            if (b->getEdgeY() >= boardSize.second || b->getEdgeY() <= 0.0f) b->bounceWall();
             if (shouldRemove) obj = nullptr;
         }
     }

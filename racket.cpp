@@ -34,6 +34,9 @@ void racket::updateEffectTimers() {
 float racket::getBottomY() const {
     return bottomY;
 }
+float racket::getDiff() const {
+    return bottomY - coors.second;
+}
 float racket::getMiddle() const {
     return (coors.second + bottomY) / 2;
 }
@@ -53,6 +56,9 @@ vector<unique_ptr<effect>>& racket::getEffects() {
 void racket::setBottomY(float y) {
     coors.second = coors.second - bottomY + y;
     bottomY = y;
+}
+void racket::resetSpeed() {
+    currentSpeed = 0.0f;
 }
 void racket::update() {
     if (isMoving) currentSpeed = min(maxSpeed, currentSpeed+acceleration);

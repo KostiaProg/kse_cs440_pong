@@ -31,6 +31,7 @@ public:
 
     // setters and getters
     float getBottomY() const;
+    float getDiff() const;
     float getMiddle() const;
     float getMaxSpeed() const;
     float getAcceleration() const;
@@ -38,5 +39,6 @@ public:
     vector<unique_ptr<effect>>& getEffects(); // engine can set to nullptr
 
     void setBottomY(float y);
+    void resetSpeed();
     void addEffect(unique_ptr<effect> e);
 };

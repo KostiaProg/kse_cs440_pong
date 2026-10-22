@@ -39,6 +39,7 @@ private:
     void startRound();
     void endGame();
 
+    bool checkRacketBorders(racket* r, bool isUp);
     float calculateHitFactor(ball* b, racket* r);
     bool ballAndRacket(ball* b, racket* r, bool isBot);
 

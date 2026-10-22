@@ -56,6 +56,10 @@ pair<float, float> ball::getDirection() const {
     return vectorDir;
 }
 
+float ball::getEdgeY() const {
+    return coors.second + vectorDir.second * r;
+}
+
 
 float ball::getCurrentSpeed() const {
     return currentSpeed;
