@@ -7,7 +7,6 @@ using namespace std;
 
 class pickup : public ball {
 protected:
-    int countToPickup = 3;
     int countToPickup = 300;
     int countToBlinking = 100;
     const EffectType effectOfPickup;
@@ -32,7 +31,8 @@ public:
 
     // setters and getters
     int getCountToPickup() const;
-    int getCountToblining() const;
+    int getCountToBlinking() const;
+    bool startBlinking() const;
     EffectType getEffectType() const;
 
     void setCountToPickup(int count);

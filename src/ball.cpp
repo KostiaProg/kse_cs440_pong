@@ -46,7 +46,7 @@ void ball::bounceWall() {
 void ball::bounceRacket(float hitFactor) {
     vectorDir.first = -vectorDir.first;
     
-    vectorDir.second += hitFactor * 0.4f; // 0.4 is a magic number, test it later
+    vectorDir.second += hitFactor;
     normalize();
 
     if (currentSpeed != defaultSpeed) currentSpeed = defaultSpeed;

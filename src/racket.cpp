@@ -68,6 +68,12 @@ void racket::setBottomY(float y) {
 void racket::setWidth(float w) {
     width = w;
 }
+void racket::setPosition(float x, float y) {
+    float height = bottomY - coors.second;
+    coors.first = x;
+    coors.second = y;
+    bottomY = y + height;
+}
 void racket::resetSpeed() {
     currentSpeed = 0.0f;
 }

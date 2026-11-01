@@ -7,10 +7,10 @@ using namespace std;
 
 class ball : public object {
 protected:
-    float r = 5.0f;
+    float r = 20.0f;
     pair<float, float> vectorDir; // how the direction updates, unit vector
 
-    const float defaultSpeed = 5.0f;
+    const float defaultSpeed = 1.0f;
     float currentSpeed = defaultSpeed;
 
     void normalize();

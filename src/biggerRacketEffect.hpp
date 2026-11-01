@@ -5,7 +5,7 @@ using namespace std;
 
 class biggerRacketEffect : public effectTime {
 protected:
-    const float increaseRacketSize = 5.0f;
+    const float increaseRacketSize = 100.0f;
 public:
     biggerRacketEffect() {}
     biggerRacketEffect(float initIncreaseRacketSize) : increaseRacketSize(initIncreaseRacketSize) {}

@@ -4,14 +4,14 @@
 
 class effectTime : public effect {
 protected:
-    int time = 20;
+    int time = 1200;
 public:
     effectTime() {}
     effectTime(int initTime) : time(initTime) {}
     virtual ~effectTime() = default;
 
     // setters and getters
-    void setTime(int newTime) {}
-    int updateTime() {}
-    int getTime() const {}
+    void setTime(int newTime);
+    int updateTime();
+    int getTime() const;
 };

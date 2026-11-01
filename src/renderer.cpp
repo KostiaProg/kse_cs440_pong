@@ -99,7 +99,7 @@ void renderer::draw(sf::RenderWindow& window) {
                         break;
                 }
 
-                if (p->getCountToPickup() <= p->getCountToBlinking()) {
+                if (p->startBlinking()) {
                     int interval = blinkClock.getElapsedTime().asMilliseconds() / blinkMs; // every 500 ms
                     if (interval % 2 == 0) shouldDraw = false;
                 }

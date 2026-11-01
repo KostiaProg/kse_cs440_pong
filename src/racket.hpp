@@ -16,8 +16,8 @@ protected:
     bool isUpperBorder = false;
     bool isLowerBorder = false;
 
-    const float maxSpeed = 50.0f;
-    float acceleration = 10.0f;
+    const float maxSpeed = 4.5f;      
+    float acceleration = 0.2f;
     float currentSpeed = 0.0f;
     float currentAccel = 0.0f;
 
@@ -52,6 +52,7 @@ public:
 
     void setBottomY(float y);
     void setWidth(float w);
+    void setPosition(float x, float y);
     void setIsUpperBorder(bool newIsBorder);
     void setIsLowerBorder(bool newIsBorder);
     void resetSpeed();

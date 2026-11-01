@@ -8,7 +8,7 @@
 
 using namespace std;
 
-engine::engine(int maxScore) : refe(maxScore), gen(rd()), dist(100, 400) {
+engine::engine(int maxScore) : refe(maxScore), gen(rd()), dist(400, 800) {
     timeToSpawnPickup = dist(gen);
 }
 
@@ -64,7 +64,7 @@ void engine::checkRacketBorders(racket* r, float boardHeight) {
     float height = r->getDiff();
 
     if (r->getY() <= 0.0f) {
-        r->setCoors(r->getX(), 0.0f);
+        r->setPosition(r->getX(), 0.0f);
         if (r->getCurrentSpeed() < 0.0f) r->resetSpeed();
         r->setIsUpperBorder(true);
     } else {
@@ -72,7 +72,7 @@ void engine::checkRacketBorders(racket* r, float boardHeight) {
     }
 
     if (r->getBottomY() >= boardHeight) {
-        r->setCoors(r->getX(), boardHeight - height);
+        r->setPosition(r->getX(), boardHeight - height);
         if (r->getCurrentSpeed() > 0.0f) r->resetSpeed();
         r->setIsLowerBorder(true);
     } else {
@@ -82,9 +82,9 @@ void engine::checkRacketBorders(racket* r, float boardHeight) {
 
 float engine::calculateHitFactor(ball* b, racket* r) {
     if (b->getY() > r->getMiddle()) {
-        return (b->getY() - r->getBottomY()) / (r->getY() - r->getBottomY());
+        return (b->getY() - r->getBottomY()) / (r->getY() - r->getBottomY()) * 0.6f;
     } else {
-        return 1.0f - (b->getY() - r->getBottomY()) / (r->getMiddle() - r->getBottomY());
+        return (1.0f - (b->getY() - r->getBottomY()) / (r->getMiddle() - r->getBottomY())) * 0.6f;
     }
 }
 
@@ -95,8 +95,8 @@ bool engine::ballAndRacket(ball* b, racket* r, bool isBot, bool& scored) {
     if (!onEdge) return false;
 
     if (auto* p = dynamic_cast<pickup*>(b)) {
-        if (p->getY() >= r->getBottomY() && p->getY() <= r->getY()) {
-            if (p->checkCount()) {
+        if (p->getY() + p->getRadius() >= r->getY() && p->getY() - p->getRadius() <= r->getBottomY()) {
+            if (!p->checkCount()) {
                 switch (p->getEffectType()) {
                     case EffectType::BiggerRacket:
                         r->addEffect(make_unique<biggerRacketEffect>());
@@ -113,7 +113,7 @@ bool engine::ballAndRacket(ball* b, racket* r, bool isBot, bool& scored) {
         else return true;
     }
 
-    if (b->getY() <= r->getBottomY() && b->getY() >= r->getY()) {
+    if (b->getY() + b->getRadius() >= r->getY() && b->getY() - b->getRadius() <= r->getBottomY()) {
         b->bounceRacket(calculateHitFactor(b, r));
         for (auto& e : r->getEffects()) {
             if (speedBallEffect* sbe = dynamic_cast<speedBallEffect*>(e.get())) {
@@ -132,12 +132,10 @@ void engine::update(vector<unique_ptr<object>>& objs, unique_ptr<racket>& player
 
     if (player) {
         checkRacketBorders(player.get(), boardSize.second);
-        checkRacketBorders(player.get(), boardSize.second);
         player->update();
     }
 
     if (bot) {
-        checkRacketBorders(bot.get(), boardSize.second);
         checkRacketBorders(bot.get(), boardSize.second);
         bot->update();
     }

@@ -27,7 +27,7 @@ private:
     sf::Texture texBiggerRacket;
     sf::Texture texSpeedBall;
 
-    int blinkMs = 500;
+    int blinkMs = 150;
     sf::Clock blinkClock;
 
 

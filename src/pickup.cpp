@@ -33,7 +33,7 @@ pickup::pickup(std::pair<float, float> initCoors, float dfSpeed, std::pair<float
 void pickup::initCountToPickup() {
     random_device rd;
     mt19937 gen(rd());
-    uniform_int_distribution<int> dist(1, 6);
+    uniform_int_distribution<int> dist(400, 800);
 
     countToPickup = dist(gen);
 }
@@ -41,7 +41,8 @@ void pickup::initCountToPickup() {
 
 // setters and getters
 void pickup::update() {
-    if (!checkCount()) --countToPickup;
+    ball::update();
+    if (checkCount()) --countToPickup;
 }
 
 int pickup::getCountToPickup() const {
@@ -49,6 +50,9 @@ int pickup::getCountToPickup() const {
 }
 int pickup::getCountToBlinking() const {
     return countToBlinking;
+}
+bool pickup::startBlinking() const {
+    return countToPickup <= countToBlinking;
 }
 
 bool pickup::checkCount() {
